@@ -1,13 +1,12 @@
-html,
-body {
-    height: 100%;
+a {
+    cursor: pointer;
 }
 
 .wrap {
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
-    padding: 0 0 60px;
+    padding: 0;
 }
 
 .wrap > .container {
@@ -113,9 +112,38 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+.navbar-fixed-top .navbar-nav > li > a {
+    font-size: 18px;
+}
 
 body {
     background: #eeeeee;
+}
+.main-wrapper {
+    margin-top: 53px;
+}
+.main-wrapper .content-wrapper {
+    padding-top: 15px;
+    height: calc(100vh - 53px);
+}
+.main-wrapper .sidebar-wrapper {
+    background-color: #333333;
+    height: calc(100vh - 53px);
+    padding: 0;
+}
+.main-wrapper .sidebar-wrapper .sidebar-item {
+    padding: 10px;
+    border: 1px solid #222;
+}
+.main-wrapper .sidebar-wrapper .sidebar-item a {
+    color: #eee;
+}
+.main-wrapper .sidebar-wrapper .sidebar-item .icon {
+    font-size: 16px;
+}
+.main-wrapper .sidebar-wrapper .sidebar-item .text {
+    font-size: 18px;
+    margin-left: 15px;
 }
 
 .login-page {

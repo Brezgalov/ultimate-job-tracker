@@ -28,38 +28,43 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-        'innerContainerOptions' => [
-            'class' => 'container-fluid',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-                /*'<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>',*/
-        ],
-    ]);
-    NavBar::end();
+        NavBar::begin([
+            'brandLabel' => '<i class="glyphicon glyphicon-menu-hamburger"></i>',
+            'brandUrl' => null,
+            'options' => [
+                'class' => 'navbar-inverse navbar-fixed-top',
+            ],
+            'innerContainerOptions' => [
+                'class' => 'container-fluid',
+            ],
+        ]);
+
+        $userName = \Yii::$app->user->identity->name;
+
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                "<li><a class='btn btn-link'>{$userName}</a></li>",
+                '<li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i></a></li>',
+            ],
+        ]);
+
+        NavBar::end();
     ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+    <div class="main-wrapper container-fluid">
         <?= Alert::widget() ?>
-        <?= $content ?>
+        <div class="row">
+            <div class="sidebar-wrapper col-md-2">
+                <?= $this->render('_sidebar') ?>
+            </div>
+            <div class="content-wrapper col-md-10">
+                <?= Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]) ?>
+                <?= $content ?>
+            </div>
+        </div>
     </div>
 </div>
 
