@@ -25,7 +25,8 @@ class m210426_104013_create_users_table extends Migration
         $this->createIndex(
             'users_IDX_login',
             'users',
-            'login'
+            'login',
+            true
         );
 
         $this->createIndex(
