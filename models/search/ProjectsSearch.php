@@ -18,7 +18,7 @@ class ProjectsSearch extends Projects
     {
         return [
             [['id', 'created_at'], 'integer'],
-            [['name_url', 'name'], 'safe'],
+            [['slug', 'name'], 'safe'],
         ];
     }
 
@@ -56,7 +56,7 @@ class ProjectsSearch extends Projects
         $query
             ->andFilterWhere(['id' => $this->id])
             ->andFilterWhere(['created_at' => $this->created_at])
-            ->andFilterWhere(['like', 'name_url', $this->name_url])
+            ->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;

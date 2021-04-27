@@ -69,12 +69,12 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'login' => 'Login',
-            'email' => 'Email',
-            'name' => 'Name',
-            'password_hash' => 'Password Hash',
-            'auth_key' => 'Auth Key',
-            'created_at' => 'Created At',
+            'login' => 'Логин',
+            'email' => 'E-mail',
+            'name' => 'Имя',
+            'password_hash' => 'Хэш пароля',
+            'auth_key' => 'Ключ авторизации',
+            'created_at' => 'Дата создания',
         ];
     }
 

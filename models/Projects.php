@@ -2,14 +2,17 @@
 
 namespace app\models;
 
-use Yii;
+use yii\behaviors\SluggableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "projects".
  *
  * @property int $id
- * @property string $name_url
+ * @property string $slug
  * @property string $name
+ * @property string $description
  * @property int|null $created_at
  *
  * @property ProjectsUsers[] $projectsUsers
@@ -30,10 +33,31 @@ class Projects extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_url', 'name'], 'required'],
-            [['created_at'], 'integer'],
-            [['name_url', 'name'], 'string', 'max' => 255],
+            [['name'], 'required'],
+            [['slug', 'name'], 'string', 'max' => 255],
+            [['description'], 'string', 'max' => 65000],
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
+            ],
+            'slug' => [
+                'class' => SluggableBehavior::class,
+                'attribute' => 'name',
+                'ensureUnique' => true,
+                'immutable' => true,
+            ],
+        ]);
     }
 
     /**
@@ -43,9 +67,9 @@ class Projects extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name_url' => 'Name Url',
-            'name' => 'Name',
-            'created_at' => 'Created At',
+            'slug' => 'Url названия',
+            'name' => 'Название',
+            'created_at' => 'Дата создания',
         ];
     }
 

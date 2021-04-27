@@ -116,9 +116,6 @@ a.desc:after {
     font-size: 18px;
 }
 
-body {
-    background: #eeeeee;
-}
 .main-wrapper {
     margin-top: 53px;
 }
@@ -148,7 +145,8 @@ body {
 
 .login-page {
     position: relative;
-    height: 100%;
+    height: 100vh;
+    background: #eeeeee;
 
     display: flex;
     flex-direction: column;

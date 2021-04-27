@@ -14,14 +14,14 @@ class m210426_110122_create_project_roles_table extends Migration
     {
         $this->createTable('{{%project_roles}}', [
             'id' => $this->primaryKey(),
-            'code' => $this->string()->notNull(),
+            'slug' => $this->string()->notNull(),
             'name' => $this->string()->notNull(),
         ]);
 
         $this->createIndex(
-            'project_roles_IDX_code',
+            'project_roles_IDX_slug',
             'project_roles',
-            'code'
+            'slug'
         );
     }
 
@@ -31,7 +31,7 @@ class m210426_110122_create_project_roles_table extends Migration
     public function safeDown()
     {
         $this->dropIndex(
-            'project_roles_IDX_code',
+            'project_roles_IDX_slug',
             'project_roles'
         );
 

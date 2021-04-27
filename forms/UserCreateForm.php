@@ -5,7 +5,7 @@ namespace app\forms;
 use app\models\Users;
 use yii\base\Model;
 
-class CreateUserForm extends Model
+class UserCreateForm extends Model
 {
     /**
      * @var string

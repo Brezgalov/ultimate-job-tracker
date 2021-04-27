@@ -2,13 +2,13 @@
 
 namespace app\models;
 
-use Yii;
+use yii\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "project_roles".
  *
  * @property int $id
- * @property string $code
+ * @property string $slug
  * @property string $name
  *
  * @property ProjectRoleRights[] $projectRoleRights
@@ -30,9 +30,24 @@ class ProjectRoles extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'name'], 'required'],
-            [['code', 'name'], 'string', 'max' => 255],
+            [['slug', 'name'], 'required'],
+            [['slug', 'name'], 'string', 'max' => 255],
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'slug' => [
+                'class' => SluggableBehavior::class,
+                'attribute' => 'name',
+                'ensureUnique' => true,
+                'immutable' => true,
+            ],
+        ]);
     }
 
     /**
@@ -42,7 +57,7 @@ class ProjectRoles extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
+            'slug' => 'Slug',
             'name' => 'Name',
         ];
     }

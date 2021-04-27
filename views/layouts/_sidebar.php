@@ -9,6 +9,10 @@ $items = [
         'url' => '/',
     ],
     [
+        'label' => '<i class="glyphicon glyphicon-user"></i><span class="text">Пользователи</span>',
+        'url' => '/users',
+    ],
+[
         'label' => '<i class="icon glyphicon glyphicon-wrench"></i><span class="text">Настройки</span>',
         'url' => '/',
     ],

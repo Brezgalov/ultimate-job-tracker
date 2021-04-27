@@ -14,8 +14,9 @@ class m210426_105216_create_projects_table extends Migration
     {
         $this->createTable('{{%projects}}', [
             'id'            => $this->primaryKey(),
-            'name_url'      => $this->string()->notNull(),
+            'slug'          => $this->string()->notNull(),
             'name'          => $this->string()->notNull(),
+            'description'   => $this->text(),
             'created_at'    => $this->integer(11),
         ]);
 
@@ -26,9 +27,9 @@ class m210426_105216_create_projects_table extends Migration
         );
 
         $this->createIndex(
-            'projects_IDX_name_url',
+            'projects_IDX_slug',
             'projects',
-            'name_url'
+            'slug'
         );
 
         $this->createIndex(
