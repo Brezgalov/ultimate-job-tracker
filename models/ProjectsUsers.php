@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "projects_users".
@@ -39,6 +41,21 @@ class ProjectsUsers extends \yii\db\ActiveRecord
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectRoles::class, 'targetAttribute' => ['role_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
+            ],
+        ]);
     }
 
     /**

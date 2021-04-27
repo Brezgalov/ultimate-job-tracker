@@ -1,0 +1,74 @@
+.project-users-input-heading {
+    margin-top: 26px;
+}
+.projects-form .add-user-form .form-group {
+    margin-right: 10px;
+}
+.projects-form .add-user-form .form-group label {
+    display: block;
+}
+.projects-form .add-user-form #add-user-to-project-btn:hover {
+    color: #059e06;
+}
+.projects-form .add-user-form #add-user-to-project-btn {
+    color: #cccccc;
+    font-size: 20px;
+    vertical-align: middle;
+    transition: .5s color;
+}
+.projects-form .add-user-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+}
+.projects-form .users-added-container {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    max-height: 260px;
+    overflow-y: auto;
+}
+.projects-form .project-participant-row.form-inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.projects-form .project-participant-row .worker-name {
+    font-size: 14px;
+    transition: .5s font-size;
+}
+.projects-form .project-participant-row:hover .worker-name {
+    text-decoration: underline;
+    font-size: 18px;
+}
+.projects-form .project-participant-row .trash-participant-row {
+    color: #cccccc;
+    margin-left: 3px;
+    font-size: 20px;
+    vertical-align: middle;
+    transition: .5s color;
+}
+.projects-form .project-participant-row .trash-participant-row:hover {
+    color: #bd020e;
+}
+.projects-form .project-participant-row.form-inline:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 1025px) {
+    .projects-form .add-user-form {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 10px;
+    }
+    .projects-form .project-participant-row .worker-name {
+        max-width: 125px;
+    }
+    .projects-form .project-participant-row select {
+        max-width: 185px;
+    }
+}

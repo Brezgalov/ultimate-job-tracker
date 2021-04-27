@@ -5,30 +5,60 @@ namespace app\models\search;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\ProjectRoles;
+use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
- * ProjectRolesSearch represents the model behind the search form of `app\models\ProjectRoles`.
+ * Class ProjectRolesSearch
+ * @package app\models\search
  */
-class ProjectRolesSearch extends ProjectRoles
+class ProjectRolesSearch extends Model implements ISearch
 {
+    /**
+     * @var string
+     */
+    public $slug;
+
+    /**
+     * @var string
+     */
+    public $name;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['code', 'name'], 'safe'],
+            [['slug', 'name'], 'safe'],
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
-    public function scenarios()
+    public function getRolesDropdownItems()
     {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
+        $itemsFound = $this->getQuery()
+            ->select(new Expression("id, CONCAT(name, ' (', slug, ')') as name"))
+            ->asArray()
+            ->all();
+
+        return ArrayHelper::map($itemsFound, 'id', 'name');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuery()
+    {
+        $query = ProjectRoles::find();
+
+        $query
+            ->andFilterWhere(['like', 'slug', $this->slug])
+            ->andFilterWhere(['like', 'name', $this->name]);
+
+        return $query;
     }
 
     /**
@@ -61,7 +91,7 @@ class ProjectRolesSearch extends ProjectRoles
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
+        $query->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;

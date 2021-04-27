@@ -16,6 +16,10 @@ use yii\behaviors\SluggableBehavior;
  */
 class ProjectRoles extends \yii\db\ActiveRecord
 {
+    const ROLE_ADMIN_SLUG = 'admin';
+    const ROLE_MANAGER_SLUG = 'manager';
+    const ROLE_WORKER_SLUG = 'worker';
+
     /**
      * {@inheritdoc}
      */

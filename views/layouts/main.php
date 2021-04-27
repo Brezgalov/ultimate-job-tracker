@@ -59,10 +59,13 @@ AppAsset::register($this);
                 <?= $this->render('_sidebar') ?>
             </div>
             <div class="content-wrapper col-md-10">
-                <?= Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
-                <?= $content ?>
+                <div class="container-fluid">
+                    <?= Breadcrumbs::widget([
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    ]) ?>
+
+                    <?= $content ?>
+                </div>
             </div>
         </div>
     </div>

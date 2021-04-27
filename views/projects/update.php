@@ -1,21 +1,25 @@
 <?php
 
-use yii\helpers\Html;
+use app\forms\ProjectAddUserForm;
+use app\models\search\UsersSearch;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Projects */
+/* @var $rolesAvailable array */
+/* @var $usersAvailableList array */
+/* @var $addUserForm ProjectAddUserForm*/
 
-$this->title = 'Update Projects: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Projects', 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Проекты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактирование';
 ?>
 <div class="projects-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
-    ]) ?>
 
+        'rolesAvailable' => $rolesAvailable,
+        'usersAvailableList' => $usersAvailableList,
+        'addUserForm' => $addUserForm,
+    ]) ?>
 </div>

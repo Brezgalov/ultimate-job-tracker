@@ -2,6 +2,10 @@
 
 namespace app\controllers;
 
+use app\actions\projects\UpdateAction;
+use app\forms\ProjectAddUserForm;
+use app\forms\ProjectInputForm;
+use app\models\search\UsersSearch;
 use Yii;
 use app\models\Projects;
 use app\models\search\ProjectsSearch;
@@ -15,6 +19,16 @@ use yii\filters\VerbFilter;
  */
 class ProjectsController extends Controller
 {
+    /**
+     * @return array
+     */
+    public function actions()
+    {
+        return array_merge(parent::actions(), [
+            'update' => UpdateAction::class,
+        ]);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -74,34 +88,17 @@ class ProjectsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Projects();
+        $inputModel = \Yii::$container->get(ProjectInputForm::class);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($inputModel->load(Yii::$app->request->post()) && $inputModel->save()) {
+            return $this->redirect(['view', 'id' => $inputModel->id]);
         }
 
         return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
+            'model' => $inputModel,
 
-    /**
-     * Updates an existing Projects model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
+            'usersSearch' => \Yii::$container->get(UsersSearch::class),
+            'addUserForm' => \Yii::$container->get(ProjectAddUserForm::class),
         ]);
     }
 

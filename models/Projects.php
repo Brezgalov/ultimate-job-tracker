@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\queries\ProjectsQuery;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -25,6 +26,14 @@ class Projects extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'projects';
+    }
+
+    /**
+     * @return ProjectsQuery
+     */
+    public static function find()
+    {
+        return new ProjectsQuery(get_called_class());
     }
 
     /**
@@ -69,6 +78,7 @@ class Projects extends \yii\db\ActiveRecord
             'id' => 'ID',
             'slug' => 'Url названия',
             'name' => 'Название',
+            'description' => 'Описание',
             'created_at' => 'Дата создания',
         ];
     }
