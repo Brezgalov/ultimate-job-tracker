@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\actions\projects\CreateAction;
 use app\actions\projects\UpdateAction;
 use app\forms\ProjectAddUserForm;
 use app\forms\ProjectInputForm;
@@ -25,6 +26,7 @@ class ProjectsController extends Controller
     public function actions()
     {
         return array_merge(parent::actions(), [
+            'create' => CreateAction::class,
             'update' => UpdateAction::class,
         ]);
     }
@@ -78,27 +80,6 @@ class ProjectsController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Projects model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $inputModel = \Yii::$container->get(ProjectInputForm::class);
-
-        if ($inputModel->load(Yii::$app->request->post()) && $inputModel->save()) {
-            return $this->redirect(['view', 'id' => $inputModel->id]);
-        }
-
-        return $this->render('create', [
-            'model' => $inputModel,
-
-            'usersSearch' => \Yii::$container->get(UsersSearch::class),
-            'addUserForm' => \Yii::$container->get(ProjectAddUserForm::class),
         ]);
     }
 

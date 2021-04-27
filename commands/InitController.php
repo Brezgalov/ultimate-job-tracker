@@ -177,7 +177,7 @@ class InitController extends Controller
                 }
             }
 
-            if (!$createProjectForm->createProject()) {
+            if (!$createProjectForm->storeProject()) {
                 throw new \Exception('Не удается создать тестовый проект');
             }
         }

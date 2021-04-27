@@ -23,40 +23,55 @@
     justify-content: left;
 }
 .projects-form .users-added-container {
+    position: relative;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 10px;
+    min-height: 188px;
     max-height: 260px;
     overflow-y: auto;
 }
-.projects-form .project-participant-row.form-inline {
+.projects-form .users-added-container .no-users-placeholder {
+    text-align: center;
+    font-size: 20px;
+    color: #cccccc;
+}
+.projects-form .users-added-container .project-participant-row.form-inline {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
 }
-.projects-form .project-participant-row .worker-name {
+.projects-form .users-added-container .project-participant-row .worker-name {
     font-size: 14px;
     transition: .5s font-size;
 }
-.projects-form .project-participant-row:hover .worker-name {
+.projects-form .users-added-container .project-participant-row:hover .worker-name {
     text-decoration: underline;
     font-size: 18px;
 }
-.projects-form .project-participant-row .trash-participant-row {
+.projects-form .users-added-container .project-participant-row .trash-participant-row {
     color: #cccccc;
     margin-left: 3px;
     font-size: 20px;
     vertical-align: middle;
     transition: .5s color;
 }
-.projects-form .project-participant-row .trash-participant-row:hover {
+.projects-form .users-added-container .project-participant-row .trash-participant-row:hover {
     color: #bd020e;
 }
-.projects-form .project-participant-row.form-inline:last-child {
+.projects-form .users-added-container .project-participant-row.form-inline:last-child {
     margin-bottom: 0;
+}
+.projects-form .users-added-container .no-users-placeholder {
+    position: absolute;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (max-width: 1025px) {
@@ -65,10 +80,10 @@
         align-items: flex-start;
         padding-bottom: 10px;
     }
-    .projects-form .project-participant-row .worker-name {
+    .projects-form .users-added-container .project-participant-row .worker-name {
         max-width: 125px;
     }
-    .projects-form .project-participant-row select {
+    .projects-form .users-added-container .project-participant-row select {
         max-width: 185px;
     }
 }

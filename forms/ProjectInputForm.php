@@ -80,7 +80,7 @@ class ProjectInputForm extends Model
     /**
      * @return bool
      */
-    public function createProject()
+    public function storeProject()
     {
         if (!$this->validate()) {
             return false;
@@ -124,6 +124,6 @@ class ProjectInputForm extends Model
             }
         }
 
-        return true;
+        return $project;
     }
 }

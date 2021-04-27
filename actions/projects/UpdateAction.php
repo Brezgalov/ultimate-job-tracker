@@ -19,15 +19,21 @@ class UpdateAction extends Action
             // redirect 404
         }
 
-        $usersSearch = \Yii::$container->get(UsersSearch::class);
-        $rolesSearch = \Yii::$container->get(ProjectRolesSearch::class);
-
         $inputModel = \Yii::$container->get(ProjectInputForm::class);
         $inputModel->loadFormProject($project);
 
-        if ($inputModel->load(\Yii::$app->request->post()) && $inputModel->save()) {
-            return $this->controller->redirect(['view', 'id' => $inputModel->id]);
+        if (\Yii::$app->request->isPost) {
+            $inputModel->load(\Yii::$app->request->post());
+
+            $result = $inputModel->storeProject();
+
+            if ($result) {
+                return $this->controller->redirect(['update', 'slug' => $result->slug]);
+            }
         }
+
+        $usersSearch = \Yii::$container->get(UsersSearch::class);
+        $rolesSearch = \Yii::$container->get(ProjectRolesSearch::class);
 
         $usersAvailableList = $usersSearch->getUsersDropdownItems();
 

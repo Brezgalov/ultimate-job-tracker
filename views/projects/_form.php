@@ -15,13 +15,28 @@ use app\models\search\UsersSearch;
 $leftColumnClass = 'col-md-6 col-lg-4';
 $rightColumnClass = 'col-md-6 col-lg-5';
 
+$formName = $model->formName();
 ?>
 
 <div class="projects-form">
     <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'id', [
+        'template' => '{input}',
+        'options' => [
+            'tag' => false,
+        ],
+    ])->hiddenInput()->label(false) ?>
+
     <div class="row">
         <div class="<?= $leftColumnClass ?>">
-            <h1><?= Html::encode($model->name) ?></h1>
+            <h1>
+                <?php if ($model->id): ?>
+                    <?= Html::encode($model->name) ?>
+                <?php else: ?>
+                    Новый проект
+                <?php endif; ?>
+            </h1>
         </div>
         <div class="<?= $rightColumnClass ?>">
             <h2 class="project-users-input-heading">Участники</h2>
@@ -51,12 +66,19 @@ $rightColumnClass = 'col-md-6 col-lg-5';
             </div>
 
             <div class="users-added-container">
-                <?php foreach ($model->users as $userData): ?>
-                    <?= $this->render('_form_participant_user_row', [
-                            'userData' => $userData,
-                            'rolesAvailable' => $rolesAvailable,
-                    ]) ?>
-                <?php endforeach; ?>
+                <?php if (empty($model->users)): ?>
+                    <div class="no-users-placeholder">
+                        <span>В проекте нет участников</span>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($model->users as $userData): ?>
+                        <?= $this->render('_form_participant_user_row', [
+                            'userData'          => $userData,
+                            'rolesAvailable'    => $rolesAvailable,
+                            'formName'          => $formName,
+                        ]) ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

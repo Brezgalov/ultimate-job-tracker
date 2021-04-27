@@ -29,7 +29,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
         NavBar::begin([
-            'brandLabel' => '<i class="glyphicon glyphicon-menu-hamburger"></i>',
+            'brandLabel' => '<i class="glyphicon glyphicon-menu-hamburger"></i> Навигация',
             'brandUrl' => null,
             'options' => [
                 'class' => 'navbar-inverse navbar-fixed-top',
