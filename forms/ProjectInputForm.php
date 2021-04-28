@@ -3,6 +3,7 @@
 namespace app\forms;
 
 use app\models\Projects;
+use app\models\ProjectsUsers;
 use app\models\Users;
 use yii\base\Model;
 
@@ -78,7 +79,7 @@ class ProjectInputForm extends Model
     }
 
     /**
-     * @return bool
+     * @return Projects|false
      */
     public function storeProject()
     {
@@ -109,6 +110,7 @@ class ProjectInputForm extends Model
             return false;
         }
 
+        $usersIds = [];
         if (!empty($this->users) && is_array($this->users)) {
             $addUserForm = \Yii::$container->get(ProjectAddUserForm::class, [], [
                 'project_id' => $project->id,
@@ -121,8 +123,22 @@ class ProjectInputForm extends Model
                     $this->addErrors($addUserForm->getErrors());
                     return false;
                 }
+
+                $usersIds[] = $addUserForm->user_id;
             }
         }
+
+        $deleteCondition = ['project_id' => $project->id];
+        
+        if (!empty($usersIds)) {
+            $deleteCondition = [
+                'and',
+                $deleteCondition,
+                ['not', ['user_id' => $usersIds]]
+            ];
+        }
+
+        ProjectsUsers::deleteAll($deleteCondition);
 
         return $project;
     }
