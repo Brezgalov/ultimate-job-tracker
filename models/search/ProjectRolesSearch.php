@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  * Class ProjectRolesSearch
  * @package app\models\search
  */
-class ProjectRolesSearch extends Model implements ISearch
+class ProjectRolesSearch extends BaseSearch
 {
     /**
      * @var string
@@ -59,41 +59,5 @@ class ProjectRolesSearch extends Model implements ISearch
             ->andFilterWhere(['like', 'name', $this->name]);
 
         return $query;
-    }
-
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-    public function search($params)
-    {
-        $query = ProjectRoles::find();
-
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-        ]);
-
-        $query->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'name', $this->name]);
-
-        return $dataProvider;
     }
 }
