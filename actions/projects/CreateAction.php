@@ -17,8 +17,14 @@ class CreateAction extends Action
 
         $inputModel = \Yii::$container->get(ProjectInputForm::class);
 
-        if ($inputModel->load(\Yii::$app->request->post()) && $inputModel->save()) {
-            return $this->controller->redirect(['view', 'id' => $inputModel->id]);
+        if (\Yii::$app->request->isPost) {
+            $inputModel->load(\Yii::$app->request->post());
+
+            $result = $inputModel->storeProject();
+
+            if ($result) {
+                return $this->controller->redirect("/project/{$result->slug}");
+            }
         }
 
         return $this->controller->render('create', [
