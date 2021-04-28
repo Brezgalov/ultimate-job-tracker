@@ -3,9 +3,12 @@
 namespace app\commands;
 
 use app\forms\ProjectInputForm;
+use app\forms\TaskCreateForm;
 use app\forms\UserCreateForm;
 use app\models\ProjectRoles;
 use app\models\Projects;
+use app\models\Tasks;
+use app\models\TaskStatuses;
 use app\models\Users;
 use yii\console\Controller;
 
@@ -25,6 +28,10 @@ class InitController extends Controller
         $this->actionCreateRoles();
 
         $this->actionCreateProjects();
+
+        $this->actionCreateTaskStatuses();
+
+        $this->actionCreateTasks();
     }
 
     public function actionCreateUsers()
@@ -183,5 +190,134 @@ class InitController extends Controller
         }
 
         $trans->commit();
+    }
+
+    public function actionCreateTaskStatuses()
+    {
+        $trans = \Yii::$app->db->beginTransaction();
+
+        $taskStatuses = [
+            [
+                'name' => 'Новое',
+                'slug' => 'new',
+                'is_default' => 1,
+                'is_kanban' => 1,
+                'kanban_order' => 0,
+            ],
+            [
+                'name' => 'В процессе',
+                'slug' => 'in_progress',
+                'is_default' => 0,
+                'is_kanban' => 1,
+                'kanban_order' => 1,
+            ],
+            [
+                'name' => 'Готово к тестированию',
+                'slug' => 'ready_for_test',
+                'is_default' => 0,
+                'is_kanban' => 1,
+                'kanban_order' => 2,
+            ],
+            [
+                'name' => 'Завершено',
+                'slug' => 'complete',
+                'is_default' => 0,
+                'is_kanban' => 1,
+                'kanban_order' => 3,
+            ],
+            [
+                'name' => 'Архив',
+                'slug' => 'archived',
+                'is_default' => 0,
+                'is_kanban' => 0,
+                'kanban_order' => 0,
+            ],
+        ];
+
+        foreach ($taskStatuses as $taskStatusData) {
+            $statusExist = TaskStatuses::find()->slug($taskStatusData['slug'])->exists();
+
+            if ($statusExist) {
+                continue;
+            }
+
+            $status = new TaskStatuses($taskStatusData);
+            if (!$status->save()) {
+                throw new \Exception("Не удается сохранить статус {$status->slug}");
+            }
+        }
+
+        $trans->commit();
+    }
+
+    public function actionCreateTasks()
+    {
+        $trans = \Yii::$app->db->beginTransaction();
+
+        $project = Projects::find()->slug('test')->one();
+        if (empty($project)) {
+            return;
+        }
+
+        $tasks = [
+            [
+                'title' => 'Тестовая задача #1',
+                'subTasks' => [],
+            ],
+            [
+                'title' => 'Тестовая задача #2',
+                'subTasks' => [
+                    [
+                        'title' => 'Тестовая задача #2.1',
+                    ],
+                    [
+                        'title' => 'Тестовая задача #2.2',
+                    ],
+                ],
+            ],
+            [
+                'title' => 'Тестовая задача #3',
+                'subTasks' => [
+                    [
+                        'title' => 'Тестовая задача #3.1',
+                    ],
+                ],
+            ],
+        ];
+
+        foreach ($tasks as $task) {
+            $taskInstance = $this->createSingleTask($project->id, $task);
+
+            if (!$taskInstance) {
+                continue;
+            }
+
+            foreach ($task['subTasks'] as $subTask) {
+                $subTask['parent_task_id'] = $taskInstance->id;
+
+                $this->createSingleTask($project->id, $subTask);
+            }
+        }
+
+        $trans->commit();
+    }
+
+    private function createSingleTask($projectId, array $params)
+    {
+        $form = \Yii::$container->get(TaskCreateForm::class);
+        $form->load($params, '');
+        $form->project_id = $projectId;
+
+        $taskExists = Tasks::find()->andWhere(['title' => $form->title])->one();
+        if ($taskExists) {
+            return null;
+        }
+
+        $task = $form->createTask();
+        if (!$task) {
+            throw new \Exception('Не удается создать задачу "' . $form->title . '"');
+        }
+
+        return $task;
     }
 }
