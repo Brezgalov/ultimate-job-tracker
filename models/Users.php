@@ -146,6 +146,16 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @return int|null
+     */
+    public function getDefaultProjectSlug()
+    {
+        $ids = Projects::find()->select('slug')->orderBy('id DESC')->column();
+
+        return array_shift($ids);
+    }
+
+    /**
      * Gets query for [[ProjectsUsers]].
      *
      * @return \yii\db\ActiveQuery

@@ -59,7 +59,7 @@ class ProjectsSearch extends BaseSearch
         }
 
         $query
-            ->andFilterWhere(['like', 'slug', $this->slug])
+            ->andFilterWhere(['slug' => $this->slug])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description]);
 

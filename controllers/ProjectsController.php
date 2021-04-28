@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\actions\projects\CreateAction;
+use app\actions\projects\KanbanAction;
 use app\actions\projects\UpdateAction;
 use app\forms\ProjectAddUserForm;
 use app\forms\ProjectInputForm;
@@ -26,8 +27,9 @@ class ProjectsController extends Controller
     public function actions()
     {
         return array_merge(parent::actions(), [
-            'create' => CreateAction::class,
-            'update' => UpdateAction::class,
+            'create'    => CreateAction::class,
+            'update'    => UpdateAction::class,
+            'kanban'    => KanbanAction::class,
         ]);
     }
 

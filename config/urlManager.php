@@ -8,4 +8,5 @@ return [
     'project/create'        => 'projects/create',
     'project/<slug>'        => 'projects/view',
     'project/<slug>/edit'   => 'projects/update',
+    'project/<slug>/kanban' => 'projects/kanban',
 ];
