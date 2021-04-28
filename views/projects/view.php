@@ -2,12 +2,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Projects */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Projects', 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+    'label' => ArrayHelper::getValue(\Yii::$app->params, 'pageTitles.projects'),
+    'url' => ['index']
+];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -16,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Update', ["project/{$model->slug}/edit"], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [

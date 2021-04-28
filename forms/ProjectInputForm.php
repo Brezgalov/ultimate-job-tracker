@@ -129,7 +129,7 @@ class ProjectInputForm extends Model
         }
 
         $deleteCondition = ['project_id' => $project->id];
-        
+
         if (!empty($usersIds)) {
             $deleteCondition = [
                 'and',

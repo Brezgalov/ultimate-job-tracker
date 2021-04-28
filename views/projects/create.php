@@ -1,7 +1,7 @@
 <?php
 
 use app\forms\ProjectAddUserForm;
-use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Projects */
@@ -10,7 +10,10 @@ use yii\helpers\Html;
 /* @var $addUserForm ProjectAddUserForm*/
 
 $this->title = 'Создание Проекта';
-$this->params['breadcrumbs'][] = ['label' => 'Проекты', 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+    'label' => ArrayHelper::getValue(\Yii::$app->params, 'pageTitles.projects'),
+    'url' => ['index']
+];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="projects-create">

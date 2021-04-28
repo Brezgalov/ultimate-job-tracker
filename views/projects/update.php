@@ -1,7 +1,7 @@
 <?php
 
 use app\forms\ProjectAddUserForm;
-use app\models\search\UsersSearch;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Projects */
@@ -10,8 +10,14 @@ use app\models\search\UsersSearch;
 /* @var $addUserForm ProjectAddUserForm*/
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Проекты', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = [
+    'label' => ArrayHelper::getValue(\Yii::$app->params, 'pageTitles.projects'),
+    'url' => ['index'],
+];
+$this->params['breadcrumbs'][] = [
+    'label' => $model->name,
+    'url' => ['view', 'id' => $model->id],
+];
 $this->params['breadcrumbs'][] = 'Редактирование';
 ?>
 <div class="projects-update">
