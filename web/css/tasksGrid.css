@@ -1,0 +1,16 @@
+.tasks-grid-main .panel-primary > .panel-heading {
+    background-color: #333333 !important;
+    border-color: #0f0f0f !important;
+}
+.tasks-grid-main .panel-primary {
+    border-color: #0f0f0f !important;
+}
+
+.tasks-grid-main .panel-heading .panel-title {
+    font-size: 22px;
+    display: inline-block;
+}
+.tasks-grid-main .kv-expand-header-cell {
+    color: #000 !important;
+    cursor: pointer;
+}

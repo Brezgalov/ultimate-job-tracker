@@ -6,6 +6,7 @@ return [
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
     'pageTitles' => [
-        'projects' => 'Мои проекты',
+        'projects'  => 'Проекты',
+        'tasks'     => 'Задачи',
     ]
 ];

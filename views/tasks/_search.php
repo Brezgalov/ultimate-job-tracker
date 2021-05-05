@@ -8,8 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="tasks-search">
-
+<div class="tasks-search container-fluid">
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
@@ -18,31 +17,32 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <div class="row">
+        <div class="col-md-12">
+            <span class="filters-title">Фильтры</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <?= $form->field($model, 'project_id') ?>
+            <?= $form->field($model, 'status_id') ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'id') ?>
+            <?= $form->field($model, 'parent_task_id') ?>
 
-    <?= $form->field($model, 'project_id') ?>
-
-    <?= $form->field($model, 'parent_task_id') ?>
-
-    <?= $form->field($model, 'status_id') ?>
-
-    <?= $form->field($model, 'title') ?>
-
-    <?php // echo $form->field($model, 'description') ?>
-
-    <?php // echo $form->field($model, 'hours_est') ?>
-
-    <?php // echo $form->field($model, 'hours_real') ?>
-
-    <?php // echo $form->field($model, 'start_at') ?>
-
-    <?php // echo $form->field($model, 'end_at') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'any_text') ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+                <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+            </div>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>

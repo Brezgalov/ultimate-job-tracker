@@ -22,7 +22,7 @@ use yii\db\ActiveRecord;
  * @property int|null $created_at
  *
  * @property Tasks $parentTask
- * @property Tasks[] $tasks
+ * @property Tasks[] $children
  * @property Projects $project
  * @property TaskStatuses $status
  */
@@ -75,17 +75,17 @@ class Tasks extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'project_id' => 'Project ID',
-            'parent_task_id' => 'Parent Task ID',
-            'status_id' => 'Status ID',
-            'title' => 'Title',
-            'description' => 'Description',
-            'hours_est' => 'Hours Est',
-            'hours_real' => 'Hours Real',
-            'start_at' => 'Start At',
-            'end_at' => 'End At',
-            'created_at' => 'Created At',
+            'id' => 'Номер задачи',
+            'project_id' => 'Проект',
+            'parent_task_id' => 'Задча Родитель',
+            'status_id' => 'Статус',
+            'title' => 'Заголовок',
+            'description' => 'Описание',
+            'hours_est' => 'Часы расчет.',
+            'hours_real' => 'Часы затрач.',
+            'start_at' => 'Начало',
+            'end_at' => 'Завершение',
+            'created_at' => 'Дата создания',
         ];
     }
 
@@ -104,7 +104,7 @@ class Tasks extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks()
+    public function getChildren()
     {
         return $this->hasMany(Tasks::class, ['parent_task_id' => 'id']);
     }

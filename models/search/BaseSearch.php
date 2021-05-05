@@ -18,6 +18,7 @@ abstract class BaseSearch extends Model implements ISearch
      */
     public function search(array $params)
     {
+        $this->load($params, '');
         $this->load($params);
 
         $dataProvider = new ActiveDataProvider([

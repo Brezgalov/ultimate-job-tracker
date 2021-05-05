@@ -96,6 +96,38 @@ class TasksController extends Controller
     }
 
     /**
+     * @param $id
+     * @return string
+     */
+    public function actionChildren($id = null)
+    {
+        if (empty($id)) {
+            $id = \Yii::$app->request->getBodyParam('expandRowKey');
+        }
+
+        if (empty($id)) {
+            return '';
+        }
+
+        $searchParams = array_merge(Yii::$app->request->queryParams, [
+            'parent_task_id' => $id,
+        ]);
+
+        $searchModel = new TasksSearch();
+        $dataProvider = $searchModel->search($searchParams);
+
+        if (!(clone ($dataProvider->query))->count()) {
+            return '';
+        }
+
+        return $this->renderAjax('_children', [
+            'dataProvider'  => $dataProvider,
+            'parentId'      => $id,
+            'title'         => "Подзадачи #{$id}"
+        ]);
+    }
+
+    /**
      * Deletes an existing Tasks model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id

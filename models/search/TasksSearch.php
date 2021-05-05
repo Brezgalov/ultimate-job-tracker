@@ -2,76 +2,154 @@
 
 namespace app\models\search;
 
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use DateTime;
 use app\models\Tasks;
+use yii\db\ActiveQuery;
 
 /**
- * TasksSearch represents the model behind the search form of `app\models\Tasks`.
+ * Class TasksSearch
+ * @package app\models\search
  */
-class TasksSearch extends Tasks
+class TasksSearch extends BaseSearch
 {
+    /**
+     * @var integer
+     */
+    public $id;
+
+    /**
+     * @var integer
+     */
+    public $project_id;
+
+    /**
+     * @var integer
+     */
+    public $parent_task_id = 0;
+
+    /**
+     * @var integer
+     */
+    public $status_id;
+
+    /**
+     * @var string
+     */
+    public $title;
+
+    /**
+     * @var string
+     */
+    public $any_text;
+
+    /**
+     * @var integer
+     */
+    public $start_from;
+
+    /**
+     * @var integer
+     */
+    public $end_before;
+
+    /**
+     * @var integer
+     */
+    public $created_at;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'project_id', 'parent_task_id', 'status_id', 'start_at', 'end_at', 'created_at'], 'integer'],
-            [['title', 'description'], 'safe'],
-            [['hours_est', 'hours_real'], 'number'],
+            [['id', 'project_id', 'parent_task_id', 'status_id', 'start_from', 'end_before', 'created_at'], 'integer'],
+            [['title', 'any_text'], 'string'],
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
-    public function scenarios()
+    public function attributeLabels()
     {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
+        return [
+            'id' => 'Номер Задачи',
+            'project_id' => 'Проект',
+            'status_id' => 'Статус',
+            'title' => 'Заголовок',
+            'any_text' => 'Текст',
+            'start_from' => 'Начало от',
+            'end_before' => 'Завершение до',
+            'created_at' => 'Дата создания',
+        ];
     }
 
     /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
+     * @return \yii\db\ActiveQuery
      */
-    public function search($params)
+    public function getQuery()
     {
         $query = Tasks::find();
 
-        // add conditions that should always apply here
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
-
-        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'project_id' => $this->project_id,
-            'parent_task_id' => $this->parent_task_id,
             'status_id' => $this->status_id,
-            'hours_est' => $this->hours_est,
-            'hours_real' => $this->hours_real,
-            'start_at' => $this->start_at,
-            'end_at' => $this->end_at,
-            'created_at' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        if ($this->parent_task_id !== null) {
+            if ($this->parent_task_id) {
+                $query->andWhere(['parent_task_id' => $this->parent_task_id]);
+            } else {
+                $query->andWhere(['parent_task_id' => null]);
+            }
+        }
+
+        if ($this->any_text) {
+            $query->andWhere([
+                'and',
+                ['title' => $this->any_text],
+                ['description' => $this->any_text],
+            ]);
+        }
+
+        if ($this->start_from) {
+            $query->andWhere(['>=', 'start_at', $this->start_from]);
+        }
+
+        if ($this->end_before) {
+            $query->andWhere(['<', 'end_at', $this->end_before]);
+        }
+
+        if ($this->created_at) {
+            $date = DateTime::createFromFormat('U', $this->created_at);
+            $date->setTime(0, 0, 0, 0);
+
+            $dateTimestamp = $date->getTimestamp();
+
+            $query->andWhere([
+                'and',
+                ['>=', 'created_at', $dateTimestamp],
+                ['<', 'created_at', $dateTimestamp + 24 * 3600],
+            ]);
+        }
+
+        return $query;
+    }
+
+    public function search(array $params)
+    {
+        $dataProvider = parent::search($params);
+
+        /* @var $query ActiveQuery */
+        $query = &$dataProvider->query;
+
+        $query
+            ->with('status')
+            ->with('project');
 
         return $dataProvider;
     }
