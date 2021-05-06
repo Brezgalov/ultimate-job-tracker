@@ -145,6 +145,12 @@ a.desc:after {
     margin-left: 15px;
 }
 
+.panel.my-panel .panel-heading{
+    background-color: #333333 !important;
+    color: #fff;
+    font-size: 2.5rem;
+}
+
 .login-page {
     position: relative;
     height: 100vh;

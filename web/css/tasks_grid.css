@@ -1,3 +1,7 @@
+.tasks-search {
+    padding-left: 0;
+    padding-right: 0;
+}
 .tasks-grid-main .panel-primary > .panel-heading {
     background-color: #333333 !important;
     border-color: #0f0f0f !important;
